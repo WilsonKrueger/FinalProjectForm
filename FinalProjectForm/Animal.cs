@@ -55,7 +55,7 @@ namespace FinalProjectForm
 
         public override string ToString()
         {
-            return type + ", " + Id + ", " + dateOfBirth + ", " + gender;
+            return type + ", " + Id + ", " + dateOfBirth.ToString("MM/dd/yyyy") + ", " + gender;
         }
     }
 }

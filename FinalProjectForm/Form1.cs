@@ -12,9 +12,10 @@ namespace FinalProjectForm
 {
     public partial class Form1 : Form
     {
+        String type;
         int id;
         String gender;
-        String type;
+        DateTime dob;
         AnimalRepository animalRepository;
 
         public Form1()
@@ -24,12 +25,17 @@ namespace FinalProjectForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            String[] animals = { "Dog", "Cat", "Cow", "Chicken", "Pig" };
+            //Create list of animals to be slected
+            String[] animals = { "Cow", "Chicken", "Pig", "Guineafowl", "Sheep", "Goat", "Llama", "Alpaca", "Ostrich", "Emu", "Pigeon", "Dog", "Cat" };
             List<String> animalsList = new List<string>(animals);
             listBoxAnimal.DataSource = animalsList;
 
+            //Create an animal repository
             animalRepository = new AnimalRepository();
-            //listBox1.DataSource = animalRepository.getAllAnimal();
+
+            //Setting up dateTimePicker1 with proper format
+            dateTimePicker1.Format = DateTimePickerFormat.Custom;
+            dateTimePicker1.CustomFormat = "MMM d, yyyy";
         }
 
         private void listBoxAnimal_SelectedIndexChanged(object sender, EventArgs e)
@@ -39,45 +45,58 @@ namespace FinalProjectForm
 
         private void buttonAddAnimal_Click(object sender, EventArgs e)
         {
+            //Get values from form
             type = labelType.Text;
             int.TryParse(textBoxId.Text, out id);
             gender = comboBoxGender.Text;
+            dob = dateTimePicker1.Value;
+
+            //Create new animal object with data above
             IAnimal animal = new Animal();
             animal.Type = type;
             animal.Id = id;
             animal.Gender = gender;
+            animal.DateOfBirth = dob;
 
+            //Add animal to repository
             animalRepository.addAnimal(animal);
 
+            //Confirm animal added
+            labelConfirmAdd.Text = "Animal Added!";
+        }
 
-            label5.Text = animalRepository.getOneAnimal(0).ToString();
+        private void buttonLOA_Click(object sender, EventArgs e)
+        {
+            //Minimize the current window
+            this.WindowState = FormWindowState.Minimized;
 
-            listView1.Items.Add(animal.ToString());
+            //Create new Form 2 and show it wait for Form 2 to close before continuing
+            Form2 newForm = new Form2(animalRepository);
+            newForm.ShowDialog();
+
+            //Show window that was minimaize after Form 2 closes
+            this.WindowState = FormWindowState.Normal;
+
+            //Clear labelConfirmAdd
+            labelConfirmAdd.Text = "";
         }
 
         private void textBoxId_TextChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void textBoxDOB_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            //Clear labelConfirmAdd
+            labelConfirmAdd.Text = "";
         }
 
         private void comboBoxGender_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            //Clear labelConfirmAdd
+            labelConfirmAdd.Text = "";
         }
 
-        private void listView1_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-
+            //Clear labelConfirmAdd
+            labelConfirmAdd.Text = "";
         }
     }
 }
