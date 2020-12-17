@@ -25,10 +25,17 @@ namespace FinalProjectForm
             //Set this form as the top form
             this.TopMost = true;
 
+            //Clear listBox1
+            listBox1.Items.Clear();
+
+            //Set up listBox1
+            listBox1.DisplayMember = "Display";
+            listBox1.ValueMember = "Id";
+
             //Put items into listBox1
             foreach(Animal animal in animalRepository.getAllAnimal())
             {
-                listBox1.Items.Add(animal.ToString());
+                listBox1.Items.Add(animal);
             }
         }
 
@@ -36,6 +43,25 @@ namespace FinalProjectForm
         {
             //Close this form 
             this.Close();
+        }
+
+        private void buttonRemoveAnimal_Click(object sender, EventArgs e)
+        {
+            Animal animal = (Animal)listBox1.SelectedItem;
+            int index = listBox1.SelectedIndex;
+
+            //Display error message if no item is selected
+            if(index == -1)
+            {
+                MessageBox.Show("Must select an animal to remove!");
+            }
+
+            //Remove from list 
+            if(index > -1)
+            {
+                animalRepository.removeAnimal(animal);
+                listBox1.Items.RemoveAt(index);
+            }
         }
     }
 }

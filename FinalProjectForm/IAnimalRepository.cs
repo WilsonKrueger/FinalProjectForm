@@ -11,5 +11,6 @@ namespace FinalProjectForm
         List<IAnimal> getAllAnimal();
         void addAnimal(IAnimal animal);
         IAnimal getOneAnimal(int index);
+        void removeAnimal(IAnimal animal);
     }
 }

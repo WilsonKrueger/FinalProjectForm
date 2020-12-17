@@ -12,8 +12,9 @@ namespace FinalProjectForm
 {
     public partial class Form1 : Form
     {
-        String type;
+        Guid num;
         int id;
+        String type;
         String gender;
         DateTime dob;
         AnimalRepository animalRepository;
@@ -40,26 +41,28 @@ namespace FinalProjectForm
 
         private void listBoxAnimal_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Set labelType based on selection
             labelType.Text = listBoxAnimal.SelectedItem.ToString();
         }
 
         private void buttonAddAnimal_Click(object sender, EventArgs e)
         {
             //Get values from form
+            num = Guid.NewGuid();
             type = labelType.Text;
             int.TryParse(textBoxId.Text, out id);
             gender = comboBoxGender.Text;
             dob = dateTimePicker1.Value;
 
             //Create new animal object with data above
-            IAnimal animal = new Animal();
-            animal.Type = type;
-            animal.Id = id;
-            animal.Gender = gender;
-            animal.DateOfBirth = dob;
+            IAnimal animal = new Animal(num, id, type, gender, dob);
 
             //Add animal to repository
             animalRepository.addAnimal(animal);
+
+            //Clear text boxes
+            textBoxId.Clear();
+            comboBoxGender.Text = "";
 
             //Confirm animal added
             labelConfirmAdd.Text = "Animal Added!";
@@ -79,6 +82,7 @@ namespace FinalProjectForm
 
             //Clear labelConfirmAdd
             labelConfirmAdd.Text = "";
+
         }
 
         private void textBoxId_TextChanged(object sender, EventArgs e)

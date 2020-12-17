@@ -8,31 +8,39 @@ namespace FinalProjectForm
 {
     public class Animal : IAnimal
     {
-        String type;
+        Guid num;
         int id;
-        DateTime dateOfBirth;
+        String type;
         String gender;
+        DateTime dateOfBirth;
 
         public Animal()
         {
-            type = "";
+            num = Guid.NewGuid();
             id = 0;
-            dateOfBirth = new DateTime(2000, 1, 1);
+            type = "";
             gender = "";
+            dateOfBirth = new DateTime();
         }
 
-        public Animal(String inType, int inId, DateTime inDateOfBirth, string inGender)
+        public Animal(Guid inNum, int inId, String inType, string inGender, DateTime inDateOfBirth)
         {
-            type = inType;
+            num = inNum;
             id = inId;
-            dateOfBirth = inDateOfBirth;
+            type = inType;
             gender = inGender;
+            dateOfBirth = inDateOfBirth;
         }
 
-        public String Type
+        public String Display
         {
-            get => type;
-            set => type = value;
+            get => type + ", " + Id + ", " + dateOfBirth.ToString("MM/dd/yyyy") + ", " + gender;
+        }
+
+        public Guid Num
+        {
+            get => num;
+            set => num = value;
         }
 
         public int Id
@@ -41,16 +49,21 @@ namespace FinalProjectForm
             set => id = value;
         }
 
-        public DateTime DateOfBirth
+        public String Type
         {
-            get => dateOfBirth;
-            set => dateOfBirth = value;
+            get => type;
+            set => type = value;
         }
-
         public string Gender
         {
             get => gender;
             set => gender = value;
+        }
+
+        public DateTime DateOfBirth
+        {
+            get => dateOfBirth;
+            set => dateOfBirth = value;
         }
 
         public override string ToString()
